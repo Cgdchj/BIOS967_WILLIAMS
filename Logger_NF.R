@@ -16,8 +16,10 @@ ggplot(data=Logger_F,mapping=aes(x=date_time, y=Value))+
   geom_path()+
   geom_point()
 
+#Create additional column categorizing which logger data came from
 Logger_N$logger="N"
 Logger_F$logger="F"
+#combine loggers
 Logger_NF=bind_rows(Logger_N, Logger_F)
 
 ggplot(data=Logger_NF,mapping=aes(x=date_time, y=Value, group=logger, color=logger))+
