@@ -25,7 +25,18 @@ Logger_NF=bind_rows(Logger_N, Logger_F)
 ggplot(data=Logger_NF,mapping=aes(x=date_time, y=Value, group=logger, color=logger))+
   geom_path()+
   geom_point()
+#remove first point from logger N
+
+#combine Logger N & F temp data
+LogNF_temps=cbind(Logger_F$Value,Logger_N$Value)
+
+#this needs to be a data frame
+datNF=as.data.frame(LogNF_temps)
+datNF
 
 
+#plot N vs F
+ggplot(data=datNF,mapping=aes(x=V1,y=V2,group=V1))+
+  geom_point()
 
-
+#we need the times back...how do I do that????

@@ -42,4 +42,9 @@ var(Logger_3$Value)#99.94048
 
 mean(Logger_N$Value)#34.86538
 var(Logger_N$Value)#1.491154
-#Tuesday: Plot logger Varience and means
+#Tuesday: Plot logger Variance and means
+
+
+
+
+
