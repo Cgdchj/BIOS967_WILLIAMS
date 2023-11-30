@@ -1,3 +1,5 @@
+library(tidyverse)
+library(lubridate)
 #import all loggers
 Logger_2 <- read.csv("Logger 2.csv")
 Logger_2 = Logger_2 %>% mutate(date_time=mdy_hm(Date.Time))
@@ -22,16 +24,21 @@ Logger_3$logger="3"
 Logger_All=bind_rows(Logger_N, Logger_F, Logger_2, Logger_3)
 Logger_Nests=bind_rows(Logger_N,Logger_2,Logger_3)
 
-ggplot(data=Logger_All,mapping=aes(x=date_time, y=Value, group=logger, color=logger))+
+ggplot(data=Logger_Nests,mapping=aes(x=date_time, y=Value, group=logger, color=logger))+
   geom_path()+
   geom_point()
 #Thursday: Figure out how to properly graph this so that dates aren't a problem on the x-axis
 
 
+## box plot for loggers
+ggplot(data=Logger_Nests, aes(x=logger, y=Value)) +
+  geom_boxplot()
 
+ggplot(data=Logger_Nests, aes(x=logger, y=Value)) +
+  geom_violin()
 
 ####Calculate variance and get weather station data for loggers###
-mean(Logger_Nests$Value)#=30.34265
+mean(Logger_Nests$Value)#30.34265
 var(Logger_Nests$Value)#83.33992
 
 mean(Logger_2$Value)#28.80503
@@ -42,9 +49,19 @@ var(Logger_3$Value)#99.94048
 
 mean(Logger_N$Value)#34.86538
 var(Logger_N$Value)#1.491154
+
+
 #Tuesday: Plot logger Variance and means
+mean(Logger_F$Value)#45.82
+var(Logger_F$Value)#32.28917
 
+### select 11am-2pm
 
+dat2=Logger_Nests %>% filter(date_time>ymd_hms("2023-06-15 11:00:00")&date_time<ymd_hms("2023-06-15 14:00:00"))
 
+ggplot(data=dat2, aes(x=logger, y=Value)) +
+  geom_boxplot()
 
-
+#dat3=bind_rows(dat2, Logger_N)
+#ggplot(data=dat3, aes(x=logger, y=Value)) +
+#  geom_boxplot()

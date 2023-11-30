@@ -37,6 +37,8 @@ datNF
 
 #plot N vs F
 ggplot(data=datNF,mapping=aes(x=V1,y=V2,group=V1))+
-  geom_point()
+  geom_point() +
+  lims(y=c(32,55), x=c(32,55))
+#cosntant incubation/nest attendance being shown with semi-straight line
+#Change axis titles
 
-#we need the times back...how do I do that????
