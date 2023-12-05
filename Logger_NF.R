@@ -34,11 +34,14 @@ LogNF_temps=cbind(Logger_F$Value,Logger_N$Value)
 datNF=as.data.frame(LogNF_temps)
 datNF
 
-
+lm(V2~V1, data=datNF)
 #plot N vs F
-ggplot(data=datNF,mapping=aes(x=V1,y=V2,group=V1))+
+ggplot(data=datNF,mapping=aes(x=V1,y=V2))+
   geom_point() +
-  lims(y=c(32,55), x=c(32,55))
+  geom_smooth(method="lm")+
+  lims(y=c(32,55), x=c(32,55))+
+  labs(y="Nest Temperature",x="Ambeint Temperature")
 #cosntant incubation/nest attendance being shown with semi-straight line
 #Change axis titles
 
+#Done with loggers N & F

@@ -23,6 +23,7 @@ Logger_3$logger="3"
 #combine loggers
 Logger_All=bind_rows(Logger_N, Logger_F, Logger_2, Logger_3)
 Logger_Nests=bind_rows(Logger_N,Logger_2,Logger_3)
+Loggers_23=bind_rows(Logger_2,Logger_3)
 
 ggplot(data=Logger_Nests,mapping=aes(x=date_time, y=Value, group=logger, color=logger))+
   geom_path()+
@@ -55,13 +56,27 @@ var(Logger_N$Value)#1.491154
 mean(Logger_F$Value)#45.82
 var(Logger_F$Value)#32.28917
 
-### select 11am-2pm
+### select correct times
+#loggers N & F are 6/23 between 10am and 2pm
+#logger 2 is between 6/12 2pm- 6/16 2pm
+#logger 3 is between 6/14 10:40am - 6/16 2pm
+###Sellect 6/15/23 between 10am and 2pm for loggers 2 & 3
 
-dat2=Logger_Nests %>% filter(date_time>ymd_hms("2023-06-15 11:00:00")&date_time<ymd_hms("2023-06-15 14:00:00"))
+dat23=Loggers_23 %>% filter(date_time>ymd_hms("2023-06-15 10:00:00")&date_time<ymd_hms("2023-06-15 14:00:00"))
 
-ggplot(data=dat2, aes(x=logger, y=Value)) +
-  geom_boxplot()
+ggplot(data=dat23, aes(x=logger, y=Value)) +
+  geom_boxplot()+
+  labs(y="Nest Temperature", x="Loggers")
 
-#dat3=bind_rows(dat2, Logger_N)
-#ggplot(data=dat3, aes(x=logger, y=Value)) +
-#  geom_boxplot()
+#Plot means of all 3 nest loggers
+dat23N=bind_rows(Loggers_23,Logger_N)
+
+ggplot(data=dat23N,aes(x=logger,y=Value))+
+  geom_boxplot()+
+  labs(x="Logger",y="Nest Temperature")
+
+#Plot loggers 2 & 3
+ggplot(data=dat23,mapping=aes(x=date_time, y=Value, group=logger, color=logger))+
+  geom_path()+
+  geom_point()+
+  labs(y="Nest Temperature",x="Time")
