@@ -1,0 +1,116 @@
+---
+title: "Logger_Markdown"
+author: "BWilliams"
+date: "2023-12-06"
+output: html_document
+---
+## Introduction
+
+Nest defense is common across animals, but distraction displays designed to lead predators away from the nest seem to be widespread only within birds. Among these, the ‘Broken Wing Display’ (BWD) is one of the most extraordinary because it involves the parent risking their own life to deceive predators from discovering their offspring. To date, we know that BWD is a widespread behavior that varies with nesting cycle, sex, and predator type3. However, we know little about the potential costs of BWD to offspring, especially since the initiation of BWD requires the incubating parent to leave the nest. My project will analyze how nest defense behaviors affect incubation patterns in Killdeer (_Charadrius vociferus_) using nest temperature data. 
+
+#### 1. Load packages
+```{r Load Packages,echo=TRUE, results='hide'}
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+```
+
+#### 2. Import Logger Data
+```{r Import Logger Data & assign data, results="hide"}
+Logger_2 <- read.csv("Logger 2.csv")
+Logger_2 = Logger_2 %>% mutate(date_time=mdy_hm(Date.Time))
+
+Logger_3 <- read.csv("Logger 3.csv")
+Logger_3 = Logger_3 %>% mutate(date_time=mdy_hm(Date.Time))
+
+Logger_F <- read.csv("Logger F.csv")
+Logger_F = Logger_F %>% mutate(date_time=mdy_hm(Date.Time))
+
+Logger_N <- read.csv("Logger N.csv")
+Logger_N = Logger_N %>% mutate(date_time=mdy_hm(Date.Time))
+
+#Create column to assign data to logger
+Logger_N$logger="N"
+Logger_F$logger="F"
+Logger_2$logger="2"
+Logger_3$logger="3"
+
+```
+
+#### 3. Combine and plot all loggers together
+```{r Combine & plot All,echo=TRUE}
+
+Logger_All=bind_rows(Logger_N, Logger_F, Logger_2, Logger_3)
+
+ggplot(data=Logger_All,mapping=aes(x=date_time, y=Value, group=logger, color=logger))+
+  geom_path()+
+  geom_point()+
+  labs(x="Date", y="Temperature (\u00B0C)")
+```
+
+This graph shows all temperature logger data. Loggers 2,3, and N were inside Killdeer nests, while logger F was outside of a nest, recording ambient temperate. Data for loggers N and F were collected on the same day, while data for loggers 2 and 3 were collected on separate days, resulting in a gap on the x axis.
+  
+#### 4.a Combine, filter and plot loggers 2 and 3
+
+```{r Loggers 2&3,echo=TRUE}
+Loggers_23=bind_rows(Logger_2,Logger_3)
+#Filter data to match times for logger N (10am-2pm) and plot
+dat23=Loggers_23 %>% filter(date_time>ymd_hms("2023-06-15 10:00:00")&date_time<ymd_hms("2023-06-15 14:00:00"))
+#Create graph
+ggplot(data=dat23,mapping=aes(x=date_time, y=Value, group=logger, color=logger))+
+  geom_path()+
+  geom_point()+
+  labs(y="Nest Temperature (\u00B0C)", x="Time")
+```
+
+This graph shows how much the nest temperature changed throughout the 4-hour period.From here it can be assumed that nest #2 was being attended to more consistently than nest #3.We do know that nest #2 started with one egg and ended with four, while nest #3 started with two eggs and ended with three.TO BE CONT.
+
+#### 4.b Create a boxplot to compare means for loggers 2 and 3
+```{r 2&3 Box plot}
+ggplot(data=dat23, aes(x=logger, y=Value)) +
+  geom_boxplot()+
+  labs(y="Nest Temperature(\u00B0C)", x="Logger")
+```
+
+BOXPLOT DESCRIPTION
+
+#### 5.a Combine and plot loggers N and F 
+```{r Combine N&F, echo=TRUE}
+Logger_NF=bind_rows(Logger_N, Logger_F)
+
+ggplot(data=Logger_NF,mapping=aes(x=date_time, y=Value, group=logger, color=logger))+
+  geom_path()+
+  geom_point()+
+  labs(y="Nest Temperature(\u00B0C)", x="Time")
+```
+
+GRAPH DESCRIPTION
+
+#### 5.b Create a boxplot for loggers N and F
+```{r N&F Boxplot, echo=TRUE}
+ggplot(data=Logger_NF, aes(x=logger, y=Value)) +
+  geom_boxplot()+
+  labs(y="Nest Temperature(\u00B0C)", x="Logger")
+```
+
+BOXPLOT DESCRIPTION
+
+#### 5.c Perform linear regression for loggers N and F
+```{r Linear Regression N&F, echo=TRUE}
+#combine Logger N & F temperature data
+LogNF_temps=cbind(Logger_F$Value,Logger_N$Value)
+#convert to a data frame
+datNF=as.data.frame(LogNF_temps)
+#plot N vs F
+ggplot(data=datNF,mapping=aes(x=V1,y=V2))+
+  geom_point() +
+  geom_smooth(method="lm")+
+  lims(y=c(32,55), x=c(32,55))+
+  labs(y="Nest Temperature",x="Ambeint Temperature")
+```
+
+
+REGRESSION DESCRIPTION
+
+
+## Discussion
