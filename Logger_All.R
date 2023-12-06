@@ -80,3 +80,8 @@ ggplot(data=dat23,mapping=aes(x=date_time, y=Value, group=logger, color=logger))
   geom_path()+
   geom_point()+
   labs(y="Nest Temperature",x="Time")
+
+
+
+
+
