@@ -9,7 +9,7 @@ output: html_document
 Nest defense is common across animals, but distraction displays designed to lead predators away from the nest seem to be widespread only within birds. Among these, the ‘Broken Wing Display’ (BWD) is one of the most extraordinary because it involves the parent risking their own life to deceive predators from discovering their offspring. To date, we know that BWD is a widespread behavior that varies with nesting cycle, sex, and predator type3. However, we know little about the potential costs of BWD to offspring, especially since the initiation of BWD requires the incubating parent to leave the nest. My project will analyze how nest defense behaviors affect incubation patterns in Killdeer (_Charadrius vociferus_) using nest temperature data. 
 
 #### 1. Load packages
-```{r Load Packages,echo=TRUE, results='hide'}
+```{r Load Packages,echo=TRUE, results='hide', message=F}
 library(tidyverse)
 library(lubridate)
 library(ggplot2)
