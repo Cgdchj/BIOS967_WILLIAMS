@@ -63,7 +63,7 @@ ggplot(data=dat23,mapping=aes(x=date_time, y=Value, group=logger, color=logger))
   labs(y="Nest Temperature (\u00B0C)", x="Time")
 ```
 
-This graph shows how much the nest temperature changed throughout the 4-hour period.From here it can be assumed that nest #2 was being attended to more consistently than nest #3.We do know that nest #2 started with one egg and ended with four, while nest #3 started with two eggs and ended with three.TO BE CONT.
+This graph shows how much the nest temperature changed throughout the 4-hour period.From here it can be assumed that nest #2 was being attended to more consistently than nest #3.We do know that nest #2 started with one egg and ended with four, while nest #3 started with two eggs and ended with three, so it can be assumed that these graphs also capture egg laying.
 
 #### 4.b Create a boxplot to compare means for loggers 2 and 3
 ```{r 2&3 Box plot}
@@ -72,7 +72,7 @@ ggplot(data=dat23, aes(x=logger, y=Value)) +
   labs(y="Nest Temperature(\u00B0C)", x="Logger")
 ```
 
-BOXPLOT DESCRIPTION
+This shows that the average temperatures for nest #2 were lower than nest #3, further supporting the hypothesis that nest #2 was attended to more.
 
 #### 5.a Combine and plot loggers N and F 
 ```{r Combine N&F, echo=TRUE}
@@ -84,7 +84,7 @@ ggplot(data=Logger_NF,mapping=aes(x=date_time, y=Value, group=logger, color=logg
   labs(y="Nest Temperature(\u00B0C)", x="Time")
 ```
 
-GRAPH DESCRIPTION
+This graph is showing the differences between the ambient temperature, logger F, and nest temperature,logger N. It shows that the Killdeer was doing a good job at keeping the nest temperature lower than ambient temperatures, ensuring that the eggs didn't overheat. 
 
 #### 5.b Create a boxplot for loggers N and F
 ```{r N&F Boxplot, echo=TRUE}
@@ -93,7 +93,7 @@ ggplot(data=Logger_NF, aes(x=logger, y=Value)) +
   labs(y="Nest Temperature(\u00B0C)", x="Logger")
 ```
 
-BOXPLOT DESCRIPTION
+This shows that the average nest temperature (Logger N) stayed below the average ambient temperature (Logger F), exhibiting high nest attendence.
 
 #### 5.c Perform linear regression for loggers N and F
 ```{r Linear Regression N&F, echo=TRUE}
@@ -109,8 +109,8 @@ ggplot(data=datNF,mapping=aes(x=V1,y=V2))+
   labs(y="Nest Temperature",x="Ambeint Temperature")
 ```
 
-
-REGRESSION DESCRIPTION
+This regression shows that there is no relationship between ambient temperature and nest temperature, meaning that the Killdeer is doing a great job at keeping the nest temperatures lower than ambient temperatures. 
 
 
 ## Discussion
+  Overall, this data shows that Killdeer are doing a good job at keeping their nests at temperatures below ambient temperature.The next step would be to collect more data so that we can have a representative average nest temperature, and compare it to nest temperature during nest defense behaviors to determine the risk factor involved in behaviors that require parents to get off the nest.I would also like to compare nest temperature with nesting materials used by parents to see if they have an effect on heat retention.
